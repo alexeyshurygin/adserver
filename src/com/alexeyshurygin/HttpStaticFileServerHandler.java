@@ -124,6 +124,7 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
             sendError(ctx, NOT_FOUND);
             return;
         }
+        BannerStats.getInstance().addTime(id);
         long fileLength = raf.length();
 
         HttpResponse response = new DefaultHttpResponse(HTTP_1_1, OK);
@@ -157,15 +158,15 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
             @Override
             public void operationProgressed(ChannelProgressiveFuture future, long progress, long total) {
                 if (total < 0) { // total unknown
-                    System.err.println(future.channel() + " Transfer progress: " + progress);
+                    log.debug("{} Transfer progress: {}", future.channel(), progress);
                 } else {
-                    System.err.println(future.channel() + " Transfer progress: " + progress + " / " + total);
+                    log.debug("{} Transfer progress: {} / {}", future.channel(), progress, total);
                 }
             }
 
             @Override
             public void operationComplete(ChannelProgressiveFuture future) {
-                System.err.println(future.channel() + " Transfer complete.");
+                log.debug("{} Transfer complete.", future.channel());
             }
         });
 
