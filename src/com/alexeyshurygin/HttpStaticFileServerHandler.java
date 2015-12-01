@@ -198,68 +198,10 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
         }
     }
 
-//    private static void sendListing(ChannelHandlerContext ctx, File dir) {
-//        FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK);
-//        response.headers().set(CONTENT_TYPE, "text/html; charset=UTF-8");
-//
-//        String dirPath = dir.getPath();
-//        StringBuilder buf = new StringBuilder()
-//                .append("<!DOCTYPE html>\r\n")
-//                .append("<html><head><title>")
-//                .append("Listing of: ")
-//                .append(dirPath)
-//                .append("</title></head><body>\r\n")
-//
-//                .append("<h3>Listing of: ")
-//                .append(dirPath)
-//                .append("</h3>\r\n")
-//
-//                .append("<ul>")
-//                .append("<li><a href=\"../\">..</a></li>\r\n");
-//
-//        for (File f : dir.listFiles()) {
-//            if (f.isHidden() || !f.canRead()) {
-//                continue;
-//            }
-//
-//            String name = f.getName();
-//            if (!ALLOWED_FILE_NAME.matcher(name).matches()) {
-//                continue;
-//            }
-//
-//            buf.append("<li><a href=\"")
-//                    .append(name)
-//                    .append("\">")
-//                    .append(name)
-//                    .append("</a></li>\r\n");
-//        }
-//
-//        buf.append("</ul></body></html>\r\n");
-//        ByteBuf buffer = Unpooled.copiedBuffer(buf, CharsetUtil.UTF_8);
-//        response.content().writeBytes(buffer);
-//        buffer.release();
-//
-//        // Close the connection as soon as the error message is sent.
-//        ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
-//    }
-
     private static void sendError(ChannelHandlerContext ctx, HttpResponseStatus status) {
         FullHttpResponse response = new DefaultFullHttpResponse(
                 HTTP_1_1, status, Unpooled.copiedBuffer("Failure: " + status + "\r\n", CharsetUtil.UTF_8));
         response.headers().set(CONTENT_TYPE, "text/plain; charset=UTF-8");
-
-        // Close the connection as soon as the error message is sent.
-        ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
-    }
-
-    /**
-     * When file timestamp is the same as what the browser is sending up, send a "304 Not Modified"
-     *
-     * @param ctx Context
-     */
-    private static void sendNotModified(ChannelHandlerContext ctx) {
-        FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, NOT_MODIFIED);
-        setDateHeader(response);
 
         // Close the connection as soon as the error message is sent.
         ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
