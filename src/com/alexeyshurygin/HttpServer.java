@@ -81,6 +81,7 @@ public class HttpServer {
         } else {
             path = "/Users/alexey/tmp";
         }
+        StatsDumper.getInstance().start();
         new HttpServer(port, path).run();
     }
 }

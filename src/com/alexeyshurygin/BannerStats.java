@@ -1,5 +1,7 @@
 package com.alexeyshurygin;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
@@ -47,5 +49,11 @@ public class BannerStats {
         } finally {
             w.unlock();
         }
+    }
+
+    public Map<String, Integer> getStats24h() {
+        final Map<String, Integer> result = new HashMap<>();
+        //TODO
+        return result;
     }
 }
