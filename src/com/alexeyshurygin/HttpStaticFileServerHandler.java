@@ -208,19 +208,6 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
     }
 
     /**
-     * Sets the Date header for the HTTP response
-     *
-     * @param response HTTP response
-     */
-    private static void setDateHeader(FullHttpResponse response) {
-        SimpleDateFormat dateFormatter = new SimpleDateFormat(HTTP_DATE_FORMAT, Locale.US);
-        dateFormatter.setTimeZone(TimeZone.getTimeZone(HTTP_DATE_GMT_TIMEZONE));
-
-        Calendar time = new GregorianCalendar();
-        response.headers().set(DATE, dateFormatter.format(time.getTime()));
-    }
-
-    /**
      * Sets the Date and Cache headers for the HTTP Response
      *
      * @param response    HTTP response
